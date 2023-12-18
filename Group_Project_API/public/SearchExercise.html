@@ -39,53 +39,12 @@
 
   <!-- Thanh tìm kiếm -->
   <input type="text" id="searchInput" placeholder="Enter search keywords">
-  <button onclick="searchExercises()">Search</button>
+  <button onclick=Search()>Search</button>
 
   <!-- Hiển thị kết quả -->
   <div id="results"></div>
 
-  <script>
-    async function searchExercises() {
-      const searchInput = document.getElementById('searchInput');
-      const searchTerm = searchInput.value.trim();
-
-      if (searchTerm !== '') {
-        try {
-          const response = await fetch(`/exercise/?search=${searchTerm}`);
-          const data = await response.json();
-
-          const resultsContainer = document.getElementById('results');
-          resultsContainer.innerHTML = ''; 
-
-          if (data.length > 0) {
-            data.forEach((exercise) => {
-              const exerciseButton = document.createElement('button');
-              exerciseButton.classList.add('exercise-button');
-              exerciseButton.innerHTML = `
-                <img src="${exercise.gifUrl}" alt="${exercise.name}" width="200" height="150">
-                <h3>${exercise.name}</h3>
-                <p>Mục tiêu: ${exercise.target}</p>
-                <p>Phần cơ thể: ${exercise.bodyPart}</p>`;
-              exerciseButton.addEventListener('click', () => showDetails(exercise));
-              resultsContainer.appendChild(exerciseButton);
-            });
-          } else {
-            resultsContainer.innerHTML = `<p>No exercise for "${searchTerm}"</p>`;
-          }
-        } catch (error) {
-          console.error(error);
-          // Xử lý lỗi
-        }
-      } else {
-        // Xóa kết quả nếu từ khóa tìm kiếm trống
-        document.getElementById('results').innerHTML = '';
-      }
-    }
-
-    function showDetails(exercise) {
-  const exerciseId = exercise.id;
-  window.location.href = `/exercise/${exerciseId}`;
-}
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="SearchExercise.js"></script>
 </body>
 </html>
